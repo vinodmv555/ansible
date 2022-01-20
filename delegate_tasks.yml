@@ -1,0 +1,23 @@
+---
+- name: Playbook example - delegate_task
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Get system information
+      command: uname -a
+      register: server
+
+    - name: Display system information 
+      debug:
+        msg: "{{ server }}"
+
+    - name: Get system information from localhost
+      command: uname -a
+      delegate_to: localhost
+      register: local
+
+    - name: Display localhost system information
+      debug:
+        msg: "{{ local }}"
+
