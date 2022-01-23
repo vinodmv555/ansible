@@ -1,0 +1,34 @@
+---
+- name: 0517c90a351c.mylabserver.com
+  hosts: 0517c90a351c.mylabserver.com
+  become: yes
+  vars:
+    data: "{{ lookup('file', '/etc/hosts', '/etc/resolv.conf') }}" #looup plug-ins enable Ansible to use data from external sources, such as files and the shell environment
+    data_query: "{{ query('file', '/etc/hosts') }}" #query always returns a list, which can be easier to parse and work with.
+    env1: "{{ lookup('env', 'MAIL') }}"
+    ls_tmp: "{{ query('pipe', 'ls /tmp') }}"
+    ls_tmp1: "{{ query('lines', 'ls /tmp') }}"
+
+ 
+  tasks:
+    - name: lookup plugin 'file' option 
+      debug:
+        msg: "{{ data }}"
+
+
+    - name: lookup plugin 'query' option
+      debug:
+        msg: "{{ data_query }}"
+
+
+    - name: lookup plugin 'env' option
+      debug:
+        msg: "{{ env1 }}"
+
+    - name: query plugin with pipe option
+      debug:
+        msg: "{{ ls_tmp }}"
+
+    - name: query plugin line option
+      debug:
+        msg: "{{ ls_tmp1 }}"
